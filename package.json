@@ -17,18 +17,19 @@
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
+    "serve": "^11.2.0",
     "tree-kill": "^1.2.1",
     "typescript": "3.6.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "ci-start": "cross-env BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "test-e2e": "jest -c tests/e2e/jest.config.js",
     "test-e2e-ci": "node tests/e2e/run-tests-ci.js",
-    "test-e2e-ci-exec": "cross-env CI=true jest -c tests/e2e/jest.config.js --ci"
+    "test-e2e-ci-exec": "cross-env CI=true jest -c tests/e2e/jest.config.js --ci",
+    "serve": "serve -s build -l 3000"
   },
   "eslintConfig": {
     "extends": "react-app"
