@@ -1,44 +1,27 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# E2E CI tests 
+![Travis CI](https://travis-ci.com/marcveens/e2e-ci-tests.svg?branch=master)
 
-## Available Scripts
+## How it works
+This repo makes it possible to run end-to-end tests on a build agent using your create-react-app localhost development environment. 
 
-In the project directory, you can run:
+- e2e tests can be run either headful(?) and headless
+- In case the `npm run tests-e2e-ci` command runs on a build agent:
+    1. Node runs the `npm run ci-start` command (same as `npm start` but without opening an actual browser)
+    2. Node waits for port 3000 to become available. This means that the React app is running. 
+    3. `npm run test-e2e-ci-exec` will run and use localhost:3000 for the e2e tests
+    4. When a test fails, the build will also fail
+    5. No matter what the result is, all started processes will be killed gracefully.
 
-### `npm start`
+## Used packages for e2e testing
+| Package | Description |
+|-|-|
+| [`jest`](https://www.npmjs.com/package/jest) | JavaScript testing framework |
+| [`puppeteer`](https://www.npmjs.com/package/puppeteer) | Node library which provides a high-level API to control Chrome or Chromium over the DevTools Protocol. Puppeteer runs headless by default, but can be configured to run full (non-headless) Chrome or Chromium. |
+| [`jest-puppeteer`](https://www.npmjs.com/package/jest-puppeteer) | Jest preset containing all required configuration for writing integration tests using Puppeteer. |
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Important npm commands
+| Command | Description |
+|-|-|
+| `test-e2e` | Runs E2E tests in non-headless mode, thus it opens a browser for you. |
+| `test-e2e-ci` | Runs E2E tests in a headless browser + runs `npm start` beforehand. |
+| `test-e2e-ci-exec` | Runs E2E tests in a headless browser. Requires you to run `npm start` beforehand. |
